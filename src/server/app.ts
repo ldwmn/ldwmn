@@ -3,11 +3,13 @@ import { fileURLToPath } from 'node:url';
 import Fastify from 'fastify';
 import fastifyStatic from '@fastify/static';
 import { requireAuth } from './auth.js';
+import { registerApi } from './api.js';
 import type { Config } from './config.js';
+import type { DB } from './db.js';
 
 export const WEB_DIST = fileURLToPath(new URL('../../web/dist', import.meta.url));
 
-export async function buildApp(config: Config) {
+export async function buildApp(config: Config, db: DB) {
   const app = Fastify({ logger: { redact: ['req.headers.authorization'] } });
   const auth = requireAuth(config);
 
@@ -24,6 +26,7 @@ export async function buildApp(config: Config) {
         role,
       };
     });
+    registerApi(api, db);
   }, { prefix: '/api' });
 
   if (existsSync(WEB_DIST)) {

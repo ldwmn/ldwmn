@@ -4,6 +4,7 @@ export interface Config {
   botToken: string;
   webappUrl: string;
   port: number;
+  dbFile: string;
   initDataMaxAgeSec: number;
   /** Telegram ID -> роль. Первый ID в списке — owner. */
   allowed: Map<number, Role>;
@@ -28,6 +29,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     botToken,
     webappUrl: env.WEBAPP_URL ?? '',
     port: Number(env.PORT ?? 3000),
+    dbFile: env.DB_FILE ?? 'data/studio.db',
     initDataMaxAgeSec: Number(env.INITDATA_MAX_AGE_SEC ?? 86400),
     allowed,
   };

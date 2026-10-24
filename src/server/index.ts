@@ -1,9 +1,10 @@
 import { buildApp } from './app.js';
 import { buildBot, setupMenuButton } from './bot.js';
 import { loadConfig } from './config.js';
+import { openDb } from './db.js';
 
 const config = loadConfig();
-const app = await buildApp(config);
+const app = await buildApp(config, openDb(config.dbFile));
 const bot = buildBot(config);
 
 await app.listen({ port: config.port, host: '0.0.0.0' });
