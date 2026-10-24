@@ -1,0 +1,4 @@
+# Замените на свой домен; HTTPS-сертификат Caddy получит сам.
+studio.example.com {
+	reverse_proxy app:3000
+}

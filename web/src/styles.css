@@ -1,0 +1,54 @@
+:root {
+  /* Токены варианта A (светлая тема). Вариант B — заменой этих переменных. */
+  --bg: #f5f4f8;
+  --surface: #ffffff;
+  --border: #e2dfea;
+  --text: #1e1a2b;
+  --muted: #6b6580;
+  --accent: #b3204f;
+  --accent-soft: #f9e3ea;
+  --success: #1d7a63;
+  --warn: #9a5600;
+  --warn-soft: #fbebcb;
+  --font: 'Onest', system-ui, sans-serif;
+  --font-display: 'Unbounded', sans-serif;
+}
+:root[data-theme='dark'] {
+  --bg: #15121e;
+  --surface: #1f1b2c;
+  --border: #322d44;
+  --text: #f1eff7;
+  --muted: #a9a3bd;
+  --accent: #ff6b97;
+  --accent-soft: #3a1b29;
+  --success: #4cc9a6;
+  --warn: #f0b04a;
+  --warn-soft: #3a2a10;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}
+button { font-family: inherit; }
+
+.shell { min-height: 100vh; display: flex; flex-direction: column; max-width: 430px; margin: 0 auto; }
+.screen { flex: 1; padding: 26px 16px 16px; }
+.screen h1 { margin: 0 0 14px; font: 600 20px/1.2 var(--font-display); letter-spacing: -0.01em; }
+.empty { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: var(--muted); }
+
+.nav {
+  position: sticky; bottom: 0;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 6px 2px calc(6px + env(safe-area-inset-bottom));
+}
+.nav button {
+  min-height: 44px; border: 0; background: none; color: var(--muted);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  font-size: 11px; font-weight: 500;
+}
+.nav button[aria-current='page'] { color: var(--accent); font-weight: 600; }
+.msg { padding: 24px 16px; max-width: 430px; margin: 0 auto; color: var(--muted); }
