@@ -1,5 +1,5 @@
 import { tg } from './telegram';
-import type { ClientFull, Direction, DirectionOverview, Me, PaymentRow, Today, WeekPayments } from './types';
+import type { CalendarMonth, ClientFull, LessonView, Template, WeekView, Direction, DirectionOverview, Me, PaymentRow, Today, WeekPayments } from './types';
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -34,5 +34,14 @@ export const api = {
   week: (week: string) => call<WeekPayments>('GET', `/payments?week=${week}`),
   addPayment: (body: unknown) => call<PaymentRow>('POST', '/payments', body),
   setPayment: (id: number, body: unknown) => call<PaymentRow>('PATCH', `/payments/${id}`, body),
+  calendar: (month: string) => call<CalendarMonth>('GET', `/calendar?month=${month}`),
+  day: (date: string) => call<{ date: string; lessons: LessonView[] }>('GET', `/day?date=${date}`),
+  weekView: (date: string) => call<WeekView>('GET', `/week?date=${date}`),
+  templates: () => call<Template[]>('GET', '/templates'),
+  addTemplate: (body: unknown) => call<Template>('POST', '/templates', body),
+  setTemplateActive: (id: number, active: boolean) => call<Template>('PATCH', `/templates/${id}`, { active }),
+  deleteTemplate: (id: number) => call<void>('DELETE', `/templates/${id}`),
+  addLesson: (body: unknown) => call<{ id: number }>('POST', '/lessons', body),
+  deleteLesson: (id: number) => call<void>('DELETE', `/lessons/${id}`),
   deletePayment: (id: number) => call<void>('DELETE', `/payments/${id}`),
 };

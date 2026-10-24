@@ -16,7 +16,13 @@ export function seedDemo(db: DB, today = todayMsk()) {
   const link = db.prepare('INSERT INTO client_direction (client_id, direction_id, kind) VALUES (?,?,?)');
   const pay = db.prepare('INSERT INTO payment (client_id, direction_id, week_start, amount, status, note) VALUES (?,?,?,?,?,?)');
 
+  const tpl = db.prepare('INSERT INTO lesson_template (direction_id, weekday, start_time, duration_min, place, default_price) VALUES (?,?,?,?,?,?)');
+
   db.transaction(() => {
+    tpl.run(tango, 1, '19:00', 90, 'Зал на Тверской', 1500);
+    tpl.run(rumba, 1, '20:30', 90, 'Зал на Тверской', 1500);
+    tpl.run(fs, 3, '19:00', 60, 'Зал на Тверской', 1500);
+    tpl.run(practice, 6, '18:00', 120, 'Зал на Тверской', 500);
     const c = (name: string, role: string | null, status = 'active', returnOn: string | null = null, note: string | null = null, contact: string | null = null) =>
       Number(addClient.run(name, contact, status, role, returnOn, note).lastInsertRowid);
     const dinara = c('Динара Р.', 'follow', 'active', null, null, '@dinara_r');
@@ -39,6 +45,9 @@ export function seedDemo(db: DB, today = todayMsk()) {
     pay.run(oleg, tango, ws, 1500, 'paid', null);
     pay.run(dinara, tango, ws, 1500, 'unpaid', null);
     pay.run(anna, rumba, ws, 1500, 'paid', null);
+    pay.run(oleg, practice, ws, 500, 'paid', null);
+    pay.run(igor, practice, ws, 500, 'paid', null);
+    pay.run(dinara, practice, ws, 500, 'unpaid', null);
     pay.run(sveta, practice, ws, 500, 'late_cancel', 'Отменила в день практики');
     pay.run(dinara, practice, prev, 500, 'unpaid', 'С прошлой недели');
     pay.run(igor, practice, addDays(ws, 7), 500, 'paid', 'Оплатил вперёд, расписания ещё нет');

@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
-import type { DirectionOverview } from './types';
+import { ScheduleList } from './Schedule';
+import type { DirectionOverview, Me } from './types';
 
-export function Dances({ onOpenPerson }: { onOpenPerson: (id: number) => void }) {
+export function Dances({ me, onOpenPerson, onAddLesson, refreshKey }: { me: Me; onOpenPerson: (id: number) => void; onAddLesson: () => void; refreshKey: number }) {
   const [list, setList] = useState<DirectionOverview[] | null>(null);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
@@ -27,6 +28,8 @@ export function Dances({ onOpenPerson }: { onOpenPerson: (id: number) => void })
   return (
     <main className="screen">
       <h1>Танцы</h1>
+      <ScheduleList me={me} onAdd={onAddLesson} refreshKey={refreshKey} />
+      <h2>Направления</h2>
       {list?.map((d) => (
         <section key={d.id} className="card pad">
           <h2 className="plain">{d.name}</h2>
